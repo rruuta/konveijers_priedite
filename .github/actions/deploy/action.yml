@@ -1,0 +1,26 @@
+name: Deploy service
+description: Deploy greetings service using PM2
+inputs:
+  env-name:
+    required: true
+  port:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout pipeline repo
+      uses: actions/checkout@v6
+
+    - name: Checkout python-greetings repo
+      uses: actions/checkout@v6
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+
+    - name: Deploy service
+      working-directory: python-greetings
+      run: |
+        echo "Stopping existing service ${{ inputs.env-name }}..."
+        pm2 delete greetings-app-${{ inputs.env-name }} & EXIT /B 0
+        echo "Starting service ${{ inputs.env-name }} on port ${{ inputs.port }}..."
+        pm2 start app.py --name greetings-app-${{ inputs.env-name }} -- --port ${{ inputs.port }}

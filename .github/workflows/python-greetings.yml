@@ -1,0 +1,90 @@
+name: Python Greetings CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  install-pip-deps:
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Install dependencies
+        uses: ./.github/actions/install-deps
+
+  deploy-to-dev:
+    needs: install-pip-deps
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Deploy to dev
+        uses: ./.github/actions/deploy
+        with:
+          env-name: dev
+          port: 7001
+
+  tests-on-dev:
+    needs: deploy-to-dev
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Run dev tests
+        uses: ./.github/actions/test
+        with:
+          env-name: dev
+
+  deploy-to-stg:
+    needs: tests-on-dev
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Deploy to staging
+        uses: ./.github/actions/deploy
+        with:
+          env-name: stg
+          port: 7002
+
+  tests-on-stg:
+    needs: deploy-to-stg
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Run staging tests
+        uses: ./.github/actions/test
+        with:
+          env-name: stg
+
+  deploy-to-preprod:
+    needs: tests-on-stg
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Deploy to preprod
+        uses: ./.github/actions/deploy
+        with:
+          env-name: preprod
+          port: 7003
+
+  tests-on-preprod:
+    needs: deploy-to-preprod
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Run preprod tests
+        uses: ./.github/actions/test
+        with:
+          env-name: preprod
+
+  deploy-to-prod:
+    needs: tests-on-preprod
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Deploy to prod
+        uses: ./.github/actions/deploy
+        with:
+          env-name: prod
+          port: 7004
+
+  tests-on-prod:
+    needs: deploy-to-prod
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Run prod tests
+        uses: ./.github/actions/test
+        with:
+          env-name: prod
