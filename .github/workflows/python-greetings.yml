@@ -1,4 +1,4 @@
-name: Python Greetings 
+name: Python Greetings
 
 on:
   push:
@@ -10,14 +10,18 @@ jobs:
   install-pip-deps:
     runs-on: [self-hosted, windows]
     steps:
-      - name: Install dependencies
+      - uses: actions/checkout@v6
+
+      - name: Install deps step
         uses: ./.github/actions/install-deps
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy to dev
+      - uses: actions/checkout@v6
+
+      - name: Deploy DEV
         uses: ./.github/actions/deploy
         with:
           env-name: dev
@@ -27,7 +31,9 @@ jobs:
     needs: deploy-to-dev
     runs-on: [self-hosted, windows]
     steps:
-      - name: Run dev tests
+      - uses: actions/checkout@v6
+
+      - name: Test DEV
         uses: ./.github/actions/test
         with:
           env-name: dev
@@ -36,7 +42,9 @@ jobs:
     needs: tests-on-dev
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy to staging
+      - uses: actions/checkout@v6
+
+      - name: Deploy STG
         uses: ./.github/actions/deploy
         with:
           env-name: stg
@@ -46,7 +54,9 @@ jobs:
     needs: deploy-to-stg
     runs-on: [self-hosted, windows]
     steps:
-      - name: Run staging tests
+      - uses: actions/checkout@v6
+
+      - name: Test STG
         uses: ./.github/actions/test
         with:
           env-name: stg
@@ -55,7 +65,9 @@ jobs:
     needs: tests-on-stg
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy to preprod
+      - uses: actions/checkout@v6
+
+      - name: Deploy PREPROD
         uses: ./.github/actions/deploy
         with:
           env-name: preprod
@@ -65,7 +77,9 @@ jobs:
     needs: deploy-to-preprod
     runs-on: [self-hosted, windows]
     steps:
-      - name: Run preprod tests
+      - uses: actions/checkout@v6
+
+      - name: Test PREPROD
         uses: ./.github/actions/test
         with:
           env-name: preprod
@@ -74,7 +88,9 @@ jobs:
     needs: tests-on-preprod
     runs-on: [self-hosted, windows]
     steps:
-      - name: Deploy to prod
+      - uses: actions/checkout@v6
+
+      - name: Deploy PROD
         uses: ./.github/actions/deploy
         with:
           env-name: prod
@@ -84,7 +100,9 @@ jobs:
     needs: deploy-to-prod
     runs-on: [self-hosted, windows]
     steps:
-      - name: Run prod tests
+      - uses: actions/checkout@v6
+
+      - name: Test PROD
         uses: ./.github/actions/test
         with:
           env-name: prod
