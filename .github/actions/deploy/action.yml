@@ -1,5 +1,5 @@
-name: Deploy service
-description: Deploy greetings service using PM2
+name: Deploy 
+description: Deploy greetings 
 inputs:
   env-name:
     required: true
