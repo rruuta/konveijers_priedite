@@ -1,5 +1,5 @@
-name: Install Python dependencies
-description: Install dependencies for Python Greetings
+name: Python dependencies
+description: Install dependencies for Python 
 runs:
   using: "composite"
   steps:
