@@ -21,4 +21,4 @@ runs:
         echo "Stopping existing service ${{ inputs.env-name }}..."
         pm2 delete greetings-app-${{ inputs.env-name }} || true
         echo "Starting service ${{ inputs.env-name }} on port ${{ inputs.port }}..."
-        pm2 start app.py --name greetings-app-${{ inputs.env-name }} -- --port ${{ inputs.port }}
+        pm2 start app.py --name greetings-app-${{ inputs.env-name }} --interpreter python3 -- --port ${{ inputs.port }}
