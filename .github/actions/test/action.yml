@@ -1,5 +1,5 @@
 name: Run Tests
-description: Run API tests for greetings service
+description: API testi 
 inputs:
   env-name:
     required: true
@@ -15,13 +15,13 @@ runs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
 
-    - name: Install Node dependencies
+    - name: Node dependencies
       working-directory: course-js-api-framework
       run: |
         echo "Installing Node dependencies..."
         npm install
 
-    - name: Run API tests
+    - name: Run API testi
       working-directory: course-js-api-framework
       run: |
         echo "Running greetings_${{ inputs.env-name }} tests..."
