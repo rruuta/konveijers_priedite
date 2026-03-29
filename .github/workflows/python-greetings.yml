@@ -1,4 +1,4 @@
-name: Python Greetings CI/CD
+name: Python Greetings 
 
 on:
   push:
